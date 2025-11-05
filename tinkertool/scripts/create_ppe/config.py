@@ -128,22 +128,22 @@ class CheckedCreatePPEConfig(CheckedBaseConfig):
     keepexe:                bool = field(default=False, metadata={"help": "Reuse the executable for the base case"})
     overwrite:              bool = field(default=False, metadata={"help": "Overwrite existing cases if they exist"})
     # Additional derived/checked fields:
-    simulation_setup:       configparser.ConfigParser = field(metadata={"help": "Parsed simulation setup file"})
+    simulation_setup:       configparser.ConfigParser = field(default_factory=lambda: configparser.ConfigParser(), metadata={"help": "Parsed simulation setup file"})
     # - ppe_settings
-    baseroot:               Path = field(metadata={"help": "Path to the base case root directory"})
-    basecasename:           str = field(metadata={"help": "Name of the base case"})
+    baseroot:               Path = field(default_factory=Path, metadata={"help": "Path to the base case root directory"})
+    basecasename:           str = field(default="", metadata={"help": "Name of the base case"})
     # - paramfile
-    paramfile_path:         Path = field(metadata={"help": "Path to the paramfile"})
-    pdim:                   str = field(metadata={"help": "Dimension of ensemble member count in paramfile"})
-    paramdict:              dict = field(metadata={"help": "Dictionary of parameters in the paramfile"})
-    componentdict:          dict = field(metadata={"help": "Dictionary of ESM components in the paramfile"})
-    num_sims:               int = field(metadata={"help": "Number of ensemble members"})
-    num_vars:               int = field(metadata={"help": "Number of variables in the paramfile"})
-    ensemble_num:           np.ndarray = field(metadata={"help": "Ensemble number in the paramfile"})
+    paramfile_path:         Path = field(default_factory=Path, metadata={"help": "Path to the paramfile"})
+    pdim:                   str = field(default="", metadata={"help": "Dimension of ensemble member count in paramfile"})
+    paramdict:              dict = field(default_factory=dict, metadata={"help": "Dictionary of parameters in the paramfile"})
+    componentdict:          dict = field(default_factory=dict, metadata={"help": "Dictionary of ESM components in the paramfile"})
+    num_sims:               int = field(default=0, metadata={"help": "Number of ensemble members"})
+    num_vars:               int = field(default=0, metadata={"help": "Number of variables in the paramfile"})
+    ensemble_num:           np.ndarray = field(default_factory=lambda: np.array([]), metadata={"help": "Ensemble number in the paramfile"})
     # - namelist_control
-    namelist_collection_dict: dict = field(metadata={"help": "Dictionary of namelist parsed namelist_control files"})
+    namelist_collection_dict: dict = field(default_factory=dict, metadata={"help": "Dictionary of namelist parsed namelist_control files"})
     # - create_case
-    cesmroot:              Path = field(metadata={"help": "Path to the CESM root directory"})
+    cesmroot:              Path = field(default_factory=Path, metadata={"help": "Path to the CESM root directory"})
 
     def __post_init__(self):
         # check the arguments
